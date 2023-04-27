@@ -8,8 +8,8 @@ import { ItemDto } from './item/dto/item.dto';
 import { ReviewDto } from './review/dto/review.dto';
 import { PostDto } from './post/dto/post.dto';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  // app.enableCors({ origin: true, credentials: true });
+  const app = await NestFactory.create(AppModule, { cors: false });
+  app.enableCors({ origin: true, credentials: true });
   const config = new DocumentBuilder()
     .setTitle('API BOOKS')
     .setVersion('1.0')

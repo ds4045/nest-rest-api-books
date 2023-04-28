@@ -11,6 +11,7 @@ import {
   UseGuards,
   ForbiddenException,
   Query,
+  UseFilters,
 } from '@nestjs/common';
 
 import { ItemService } from './item.service';
@@ -18,9 +19,11 @@ import { ItemDto } from './dto/item.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminOnly } from 'src/decorators/admin-only.decorator';
 import { AuthGuards } from 'src/user/guards/auth.guard';
+import { BadRequestFilter } from 'src/common/request.filter';
 
 @Controller('item')
 @ApiTags('item')
+@UseFilters(BadRequestFilter)
 export class ItemController {
   constructor(private readonly itemService: ItemService) {}
 

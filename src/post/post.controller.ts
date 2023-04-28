@@ -11,6 +11,7 @@ import {
   Put,
   Req,
   Query,
+  UseFilters,
 } from '@nestjs/common';
 import { PostDto } from './dto/post.dto';
 import { AuthGuards } from 'src/user/guards/auth.guard';
@@ -18,9 +19,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { PostService } from './post.service';
 import { IExpressRequestUser } from 'src/user/user.type';
 import { PostEntity } from './entities/post.entity';
+import { BadRequestFilter } from 'src/common/request.filter';
 
 @Controller('post')
 @ApiTags('post')
+@UseFilters(BadRequestFilter)
 export class PostController {
   constructor(private readonly postService: PostService) {}
 

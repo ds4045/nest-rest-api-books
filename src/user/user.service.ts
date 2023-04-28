@@ -7,7 +7,7 @@ import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JWT_SECRET } from 'src/configs/jwt.config';
+
 import { IUserRequest } from './user.type';
 import { ItemEntity } from 'src/item/entities/item.entity';
 
@@ -40,7 +40,7 @@ export class UserService {
         name: user.name,
         email: user.email,
       },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
     );
   }
   async buildUserResponse(user: UserEntity): Promise<IUserRequest> {

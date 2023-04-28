@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   Req,
-  UseFilters,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -19,11 +18,9 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { IExpressRequestUser, IUserRequest } from './user.type';
-import { BadRequestFilter } from 'src/common/request.filter';
 
 @Controller('user')
 @ApiTags('user')
-@UseFilters(BadRequestFilter)
 export class UserController {
   constructor(private readonly userService: UserService) {}
   @Post('register')

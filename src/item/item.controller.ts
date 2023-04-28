@@ -12,6 +12,7 @@ import {
   ForbiddenException,
   Query,
 } from '@nestjs/common';
+
 import { ItemService } from './item.service';
 import { ItemDto } from './dto/item.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -41,6 +42,9 @@ export class ItemController {
 
   @Get('all')
   async findAll(@Query() query: any): Promise<ItemDto[]> {
+    if (!query.limit) {
+      query.limit = '100';
+    }
     return await this.itemService.findAll(query);
   }
 

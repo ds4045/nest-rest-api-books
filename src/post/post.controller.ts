@@ -36,6 +36,9 @@ export class PostController {
 
   @Get('all')
   async findAll(@Query() query: any): Promise<PostDto[]> {
+    if (!query.limit) {
+      query.limit = '100';
+    }
     return await this.postService.findAll(query);
   }
 

@@ -12,6 +12,8 @@ export class UpdateUserDto {
   @ApiProperty()
   @IsNotEmpty()
   readonly password: string;
+  @ApiProperty()
   readonly userImageUrl: string;
+  @ApiProperty()
   readonly about: string;
 }

@@ -4,9 +4,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
-  SelectQueryBuilder,
 } from 'typeorm';
 import { hash } from 'bcrypt';
 import { ItemEntity } from 'src/item/entities/item.entity';

@@ -5,7 +5,6 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
   readonly name: string;
-  @ApiProperty()
   @IsNotEmpty()
   @ApiProperty()
   @IsEmail()
@@ -13,7 +12,10 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
   readonly password: string;
+  @ApiProperty()
   readonly userImageUrl: string;
+  @ApiProperty()
   readonly about: string;
-  readonly isAdmin: boolean = false;
+  @ApiProperty()
+  readonly isAdmin: boolean;
 }

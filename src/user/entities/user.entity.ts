@@ -20,7 +20,7 @@ export class UserEntity {
   async hashPassword() {
     this.password = await hash(this.password, 10);
   }
-  @Column({ select: false })
+  @Column()
   password: string;
   @Column()
   email: string;

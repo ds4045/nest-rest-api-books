@@ -10,6 +10,8 @@ import { ReviewEntity } from './review/entities/review.entity';
 import { PostEntity } from './post/entities/post.entity';
 import { AuthMiddleware } from './user/middlewares/auth.middlewares';
 import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -28,8 +30,8 @@ import { ConfigModule } from '@nestjs/config';
     ReviewModule,
     PostModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

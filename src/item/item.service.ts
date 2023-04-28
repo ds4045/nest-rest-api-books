@@ -28,6 +28,7 @@ export class ItemService {
       'title',
       'price',
       'genre',
+      'category',
       'authorBook',
       'releaseDate',
     ];

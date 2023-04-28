@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, Min } from 'class-validator';
 
 export class ItemDto {
   @ApiProperty()
@@ -16,6 +16,24 @@ export class ItemDto {
   description: string;
   @ApiProperty()
   @IsNotEmpty()
+  category: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  publisher: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsInt()
+  @Min(0)
+  discount: number;
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsInt()
+  @Min(1)
+  pagesCount: number;
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsInt()
+  @Min(1)
   price: number;
   @ApiProperty()
   @IsNotEmpty()

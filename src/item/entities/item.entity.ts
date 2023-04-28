@@ -22,7 +22,15 @@ export class ItemEntity {
   @Column()
   price: number;
   @Column()
+  category: string;
+  @Column()
+  publisher: string;
+  @Column()
   genre: string;
+  @Column()
+  pagesCount: number;
+  @Column()
+  discount: number;
   @Column()
   authorBook: string;
   @Column()

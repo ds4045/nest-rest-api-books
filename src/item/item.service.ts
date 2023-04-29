@@ -8,6 +8,7 @@ import { ItemDto } from './dto/item.dto';
 import { ItemEntity } from './entities/item.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ItemDtoUpdate } from './dto/itemUpdate.dto';
 
 @Injectable()
 export class ItemService {
@@ -19,7 +20,7 @@ export class ItemService {
     return await this.itemRepository.save(createItemDto);
   }
 
-  async findAll(query: any): Promise<ItemDto[]> {
+  async findAll(query: any): Promise<ItemDtoUpdate[]> {
     const { sortBy, sortOrder, limit, offset, ...filters } = query;
     const qb = this.itemRepository
       .createQueryBuilder('item')
@@ -63,14 +64,17 @@ export class ItemService {
     return await qb.getMany();
   }
 
-  async findOne(id: number): Promise<ItemDto> {
+  async findOne(id: number): Promise<ItemDtoUpdate> {
     if (!(await this.itemRepository.findOneBy({ id }))) {
       throw new HttpException('Item does not exist', HttpStatus.NOT_FOUND);
     }
     return await this.itemRepository.findOneBy({ id });
   }
 
-  async update(id: number, updateItemDto: ItemDto): Promise<ItemDto> {
+  async update(
+    id: number,
+    updateItemDto: ItemDtoUpdate,
+  ): Promise<ItemDtoUpdate> {
     if (!(await this.itemRepository.findOneBy({ id }))) {
       throw new HttpException('Item does not exist', HttpStatus.NOT_FOUND);
     }
@@ -79,7 +83,7 @@ export class ItemService {
     return await this.itemRepository.save(item);
   }
 
-  async remove(id: number): Promise<ItemDto[]> {
+  async remove(id: number): Promise<ItemDtoUpdate[]> {
     if (!(await this.itemRepository.findOneBy({ id }))) {
       throw new HttpException('Item does not exist', HttpStatus.NOT_FOUND);
     }

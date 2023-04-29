@@ -3,6 +3,7 @@ import { IsInt, IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class ReviewDto {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
   @ApiProperty()

@@ -86,7 +86,7 @@ export class UserService {
   }
   async findById(id: number): Promise<UserEntity> {
     if (!(await this.userRepository.findOneBy({ id }))) {
-      throw new HttpException('Post does not exist', HttpStatus.NOT_FOUND);
+      throw new HttpException('Data does not exist', HttpStatus.NOT_FOUND);
     }
     return await this.userRepository.findOneBy({ id });
   }
@@ -96,10 +96,9 @@ export class UserService {
   ): Promise<UserEntity> {
     const user = await this.findById(userId);
     if (!user) {
-      throw new HttpException('Post does not exist', HttpStatus.NOT_FOUND);
+      throw new HttpException('Data does not exist', HttpStatus.NOT_FOUND);
     }
     Object.assign(user, updateUserDto);
-    await user.hashPassword();
     return await this.userRepository.save(user);
   }
 

@@ -20,6 +20,7 @@ import { PostService } from './post.service';
 import { IExpressRequestUser } from 'src/user/user.type';
 import { PostEntity } from './entities/post.entity';
 import { BadRequestFilter } from 'src/common/request.filter';
+import { PostUpdateDto } from './dto/postUpdate.dto';
 
 @Controller('post')
 @ApiTags('post')
@@ -38,7 +39,7 @@ export class PostController {
   }
 
   @Get('all')
-  async findAll(@Query() query: any): Promise<PostDto[]> {
+  async findAll(@Query() query: any): Promise<PostUpdateDto[]> {
     if (!query.limit) {
       query.limit = '100';
     }
@@ -46,7 +47,7 @@ export class PostController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<PostDto> {
+  async findOne(@Param('id') id: number): Promise<PostUpdateDto> {
     return await this.postService.findOne(+id);
   }
 
@@ -56,8 +57,8 @@ export class PostController {
   async update(
     @Req() request: IExpressRequestUser,
     @Param('id') id: number,
-    @Body() updatePostDto: PostDto,
-  ): Promise<PostDto> {
+    @Body() updatePostDto: PostUpdateDto,
+  ): Promise<PostUpdateDto> {
     return await this.postService.update(+id, updatePostDto, request.user);
   }
 
@@ -67,7 +68,7 @@ export class PostController {
     @Req() request: IExpressRequestUser,
     @Param('id')
     id: number,
-  ): Promise<PostDto[]> {
+  ): Promise<PostUpdateDto[]> {
     return await this.postService.remove(+id, request.user.id);
   }
 }

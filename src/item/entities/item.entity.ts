@@ -14,6 +14,8 @@ export class ItemEntity {
   @Column()
   inStock: boolean;
   @Column()
+  typeOfCover: string;
+  @Column()
   title: string;
   @Column()
   itemImageUrl: string;

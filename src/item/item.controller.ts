@@ -20,6 +20,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AdminOnly } from 'src/decorators/admin-only.decorator';
 import { AuthGuards } from 'src/user/guards/auth.guard';
 import { BadRequestFilter } from 'src/common/request.filter';
+import { ItemDtoUpdate } from './dto/itemUpdate.dto';
 
 @Controller('item')
 @ApiTags('item')
@@ -44,7 +45,7 @@ export class ItemController {
   }
 
   @Get('all')
-  async findAll(@Query() query: any): Promise<ItemDto[]> {
+  async findAll(@Query() query: any): Promise<ItemDtoUpdate[]> {
     if (!query.limit) {
       query.limit = '100';
     }
@@ -52,7 +53,7 @@ export class ItemController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<ItemDto> {
+  async findOne(@Param('id') id: string): Promise<ItemDtoUpdate> {
     return await this.itemService.findOne(+id);
   }
 
@@ -62,8 +63,8 @@ export class ItemController {
   async update(
     @AdminOnly() isAdmin: boolean,
     @Param('id') id: string,
-    @Body() updateItemDto: ItemDto,
-  ): Promise<ItemDto> {
+    @Body() updateItemDto: ItemDtoUpdate,
+  ): Promise<ItemDtoUpdate> {
     if (isAdmin) {
       return await this.itemService.update(+id, updateItemDto);
     } else {
@@ -78,7 +79,7 @@ export class ItemController {
   async remove(
     @AdminOnly() isAdmin: boolean,
     @Param('id') id: string,
-  ): Promise<ItemDto[]> {
+  ): Promise<ItemDtoUpdate[]> {
     if (isAdmin) {
       return await this.itemService.remove(+id);
     } else {

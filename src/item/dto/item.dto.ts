@@ -22,6 +22,9 @@ export class ItemDto {
   publisher: string;
   @ApiProperty()
   @IsNotEmpty()
+  typeOfCover: string;
+  @ApiProperty()
+  @IsNotEmpty()
   @IsInt()
   @Min(0)
   discount: number;

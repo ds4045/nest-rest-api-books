@@ -10,6 +10,7 @@ import { PostEntity } from './entities/post.entity';
 import { PostDto } from './dto/post.dto';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { ReviewEntity } from 'src/review/entities/review.entity';
+import { PostUpdateDto } from './dto/postUpdate.dto';
 
 @Injectable()
 export class PostService {
@@ -39,7 +40,7 @@ export class PostService {
     return newPost;
   }
 
-  async findAll(query: any): Promise<PostDto[]> {
+  async findAll(query: any): Promise<PostUpdateDto[]> {
     const { sortBy, sortOrder, limit, offset, ...filters } = query;
     const qb = this.postRepository.createQueryBuilder('post');
     const allowedSortByValues = [
@@ -80,7 +81,7 @@ export class PostService {
     return await qb.getMany();
   }
 
-  async findOne(id: number): Promise<PostDto> {
+  async findOne(id: number): Promise<PostUpdateDto> {
     if (!(await this.postRepository.findOneBy({ id }))) {
       throw new HttpException('Post does not exist', HttpStatus.NOT_FOUND);
     }
@@ -89,9 +90,9 @@ export class PostService {
 
   async update(
     id: number,
-    updatePostDto: PostDto,
+    updatePostDto: PostUpdateDto,
     user: UserEntity,
-  ): Promise<PostDto> {
+  ): Promise<PostUpdateDto> {
     const userId = user.id;
     const ownerUser = await this.userRepository
       .createQueryBuilder('user')
@@ -108,7 +109,7 @@ export class PostService {
     return await this.postRepository.save(post);
   }
 
-  async remove(postId: number, userId: number): Promise<PostDto[]> {
+  async remove(postId: number, userId: number): Promise<PostUpdateDto[]> {
     const ownerUser = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.posts', 'userPosts')

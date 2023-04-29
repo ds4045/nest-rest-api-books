@@ -4,16 +4,20 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 export class UpdateUserDto {
   @ApiProperty()
   @IsNotEmpty()
-  readonly name: string;
+  name: string;
   @ApiProperty()
   @IsNotEmpty()
   @IsEmail()
-  readonly email: string;
+  email: string;
   @ApiProperty()
   @IsNotEmpty()
-  readonly password: string;
+  password: string;
   @ApiProperty()
-  readonly userImageUrl: string;
+  userImageUrl: string;
   @ApiProperty()
-  readonly about: string;
+  about: string;
+  @ApiProperty()
+  phone: string;
+  @ApiProperty()
+  address: string;
 }

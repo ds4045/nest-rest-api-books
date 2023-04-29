@@ -30,6 +30,10 @@ export class UserEntity {
   name: string;
   @Column()
   about: string;
+  @Column()
+  phone: string;
+  @Column()
+  address: string;
   @ManyToMany(() => ItemEntity)
   @JoinTable()
   favoriteItems: ItemEntity[];

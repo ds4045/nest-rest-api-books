@@ -1,9 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { IsInt } from 'class-validator';
+import { Entity, Column, Unique } from 'typeorm';
 
 @Entity({ name: 'orders' })
-@Unique(['userId', 'itemId'])
+@Unique(['userId', 'itemId,id'])
 export class OrderEntity {
-  @PrimaryGeneratedColumn()
+  @Column()
+  @IsInt()
   id: number;
   @Column()
   userId: number;

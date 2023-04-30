@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsNumber, Min } from 'class-validator';
-import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class OrderDto {
   @ApiProperty()
-  @PrimaryGeneratedColumn()
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(1)
   id: number;
   @ApiProperty()
   @IsNotEmpty()

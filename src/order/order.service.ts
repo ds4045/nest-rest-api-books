@@ -15,10 +15,15 @@ export class OrderService {
   ) {}
   async create(createOrderDto: OrderDto): Promise<UserEntity> {
     const userId = createOrderDto.userId;
-    const user = await this.userRepository.findOneBy({ id: userId });
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.orderItems', 'userOrders')
+      .where('user.id = :userId', { userId })
+      .getOne();
     const orders = await this.orderRepository.find();
-    const newOrder = { ...new OrderDto(), ...createOrderDto };
+    const newOrder = { ...createOrderDto };
     orders.push(newOrder);
+    console.log(user);
     user.orderItems.push(newOrder);
     await this.orderRepository.save(orders);
     return await this.userRepository.save(user);

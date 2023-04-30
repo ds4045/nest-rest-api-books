@@ -18,7 +18,7 @@ import { OrderEntity } from './entities/order.entity';
 import { AuthGuards } from 'src/user/guards/auth.guard';
 
 @ApiTags('order')
-@UseFilters(BadRequestFilter)
+// @UseFilters(BadRequestFilter)
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}

@@ -32,6 +32,5 @@ export class OrderDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
-  @Min(1)
   totalPrice: number;
 }

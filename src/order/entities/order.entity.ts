@@ -17,13 +17,7 @@ export class OrderEntity {
   userPhone: string;
   @Column()
   userAddress: string;
-  @Column({
-    type: 'text',
-    transformer: {
-      to: (value: number[]) => JSON.stringify(value),
-      from: (value: string) => JSON.parse(value),
-    },
-  })
+  @Column({ type: 'simple-array' })
   itemId: number[];
   @Column()
   date: string;

@@ -34,10 +34,9 @@ export class PostService {
       authorId: user.id,
       authorName: user.name,
     };
-    ownerUser.posts.push(newPost);
-    await this.userRepository.save(ownerUser);
     await this.postRepository.save(newPost);
-    return ownerUser;
+    ownerUser.posts.push(newPost);
+    return await this.userRepository.save(ownerUser);
   }
 
   async findAll(query: any): Promise<PostUpdateDto[]> {
@@ -104,10 +103,9 @@ export class PostService {
     }
     const post = await this.postRepository.findOneBy({ id });
     Object.assign(post, updatePostDto);
-    ownerUser.posts = ownerUser.posts.map((p) => (p.id === id ? post : p));
-    await this.userRepository.save(ownerUser);
     await this.postRepository.save(post);
-    return ownerUser;
+    ownerUser.posts = ownerUser.posts.map((p) => (p.id === id ? post : p));
+    return await this.userRepository.save(ownerUser);
   }
 
   async remove(postId: number, userId: number): Promise<UserEntity> {
@@ -125,9 +123,7 @@ export class PostService {
     } else {
       await this.postRepository.delete(postId);
       ownerUser.posts = ownerUser.posts.filter((p) => p.id !== postId);
-      await this.userRepository.save(ownerUser);
-      await this.postRepository.find();
-      return ownerUser;
+      return await this.userRepository.save(ownerUser);
     }
   }
 }

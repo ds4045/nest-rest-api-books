@@ -20,7 +20,7 @@ import { PostService } from './post.service';
 import { IExpressRequestUser } from 'src/user/user.type';
 import { BadRequestFilter } from 'src/common/request.filter';
 import { PostUpdateDto } from './dto/postUpdate.dto';
-import { UserEntity } from 'src/user/entities/user.entity';
+import { PostEntity } from './entities/post.entity';
 
 @Controller('post')
 @ApiTags('post')
@@ -34,7 +34,7 @@ export class PostController {
   async create(
     @Req() request: IExpressRequestUser,
     @Body() createPostDto: PostDto,
-  ): Promise<UserEntity> {
+  ): Promise<PostEntity[]> {
     return this.postService.create(createPostDto, request.user);
   }
 
@@ -58,7 +58,7 @@ export class PostController {
     @Req() request: IExpressRequestUser,
     @Param('id') id: number,
     @Body() updatePostDto: PostUpdateDto,
-  ): Promise<UserEntity> {
+  ): Promise<PostEntity[]> {
     return await this.postService.update(+id, updatePostDto, request.user);
   }
 
@@ -68,7 +68,7 @@ export class PostController {
     @Req() request: IExpressRequestUser,
     @Param('id')
     id: number,
-  ): Promise<UserEntity> {
+  ): Promise<PostEntity[]> {
     return await this.postService.remove(+id, request.user.id);
   }
 }

@@ -20,7 +20,10 @@ export class PostService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
-  async create(createPostDto: PostDto, user: UserEntity): Promise<UserEntity> {
+  async create(
+    createPostDto: PostDto,
+    user: UserEntity,
+  ): Promise<PostEntity[]> {
     const userId = user.id;
     const ownerUser = await this.userRepository
       .createQueryBuilder('user')
@@ -36,7 +39,8 @@ export class PostService {
     };
     await this.postRepository.save(newPost);
     ownerUser.posts.push(newPost);
-    return await this.userRepository.save(ownerUser);
+    await this.userRepository.save(ownerUser);
+    return await this.postRepository.find();
   }
 
   async findAll(query: any): Promise<PostUpdateDto[]> {
@@ -91,7 +95,7 @@ export class PostService {
     id: number,
     updatePostDto: PostUpdateDto,
     user: UserEntity,
-  ): Promise<UserEntity> {
+  ): Promise<PostEntity[]> {
     const userId = user.id;
     const ownerUser = await this.userRepository
       .createQueryBuilder('user')
@@ -103,12 +107,13 @@ export class PostService {
     }
     const post = await this.postRepository.findOneBy({ id });
     Object.assign(post, updatePostDto);
-    await this.postRepository.save(post);
     ownerUser.posts = ownerUser.posts.map((p) => (p.id === id ? post : p));
-    return await this.userRepository.save(ownerUser);
+    await this.userRepository.save(ownerUser);
+    await this.postRepository.save(post);
+    return await this.postRepository.find();
   }
 
-  async remove(postId: number, userId: number): Promise<UserEntity> {
+  async remove(postId: number, userId: number): Promise<PostEntity[]> {
     const ownerUser = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.posts', 'userPosts')
@@ -123,7 +128,8 @@ export class PostService {
     } else {
       await this.postRepository.delete(postId);
       ownerUser.posts = ownerUser.posts.filter((p) => p.id !== postId);
-      return await this.userRepository.save(ownerUser);
+      await this.userRepository.save(ownerUser);
+      return await this.postRepository.find();
     }
   }
 }

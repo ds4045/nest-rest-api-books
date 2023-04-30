@@ -20,7 +20,7 @@ export class PostService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
-  async create(createPostDto: PostDto, user: UserEntity): Promise<PostEntity> {
+  async create(createPostDto: PostDto, user: UserEntity): Promise<UserEntity> {
     const userId = user.id;
     const ownerUser = await this.userRepository
       .createQueryBuilder('user')
@@ -35,9 +35,9 @@ export class PostService {
       authorName: user.name,
     };
     ownerUser.posts.push(newPost);
-    await this.postRepository.save(newPost);
     await this.userRepository.save(ownerUser);
-    return newPost;
+    await this.postRepository.save(newPost);
+    return ownerUser;
   }
 
   async findAll(query: any): Promise<PostUpdateDto[]> {
@@ -92,7 +92,7 @@ export class PostService {
     id: number,
     updatePostDto: PostUpdateDto,
     user: UserEntity,
-  ): Promise<PostUpdateDto> {
+  ): Promise<UserEntity> {
     const userId = user.id;
     const ownerUser = await this.userRepository
       .createQueryBuilder('user')
@@ -106,10 +106,11 @@ export class PostService {
     Object.assign(post, updatePostDto);
     ownerUser.posts = ownerUser.posts.map((p) => (p.id === id ? post : p));
     await this.userRepository.save(ownerUser);
-    return await this.postRepository.save(post);
+    await this.postRepository.save(post);
+    return ownerUser;
   }
 
-  async remove(postId: number, userId: number): Promise<PostUpdateDto[]> {
+  async remove(postId: number, userId: number): Promise<UserEntity> {
     const ownerUser = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.posts', 'userPosts')
@@ -125,7 +126,8 @@ export class PostService {
       await this.postRepository.delete(postId);
       ownerUser.posts = ownerUser.posts.filter((p) => p.id !== postId);
       await this.userRepository.save(ownerUser);
-      return await this.postRepository.find();
+      await this.postRepository.find();
+      return ownerUser;
     }
   }
 }

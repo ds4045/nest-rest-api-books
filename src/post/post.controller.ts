@@ -18,9 +18,9 @@ import { AuthGuards } from 'src/user/guards/auth.guard';
 import { ApiTags } from '@nestjs/swagger';
 import { PostService } from './post.service';
 import { IExpressRequestUser } from 'src/user/user.type';
-import { PostEntity } from './entities/post.entity';
 import { BadRequestFilter } from 'src/common/request.filter';
 import { PostUpdateDto } from './dto/postUpdate.dto';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 @Controller('post')
 @ApiTags('post')
@@ -34,7 +34,7 @@ export class PostController {
   async create(
     @Req() request: IExpressRequestUser,
     @Body() createPostDto: PostDto,
-  ): Promise<PostEntity> {
+  ): Promise<UserEntity> {
     return this.postService.create(createPostDto, request.user);
   }
 
@@ -58,7 +58,7 @@ export class PostController {
     @Req() request: IExpressRequestUser,
     @Param('id') id: number,
     @Body() updatePostDto: PostUpdateDto,
-  ): Promise<PostUpdateDto> {
+  ): Promise<UserEntity> {
     return await this.postService.update(+id, updatePostDto, request.user);
   }
 
@@ -68,7 +68,7 @@ export class PostController {
     @Req() request: IExpressRequestUser,
     @Param('id')
     id: number,
-  ): Promise<PostUpdateDto[]> {
+  ): Promise<UserEntity> {
     return await this.postService.remove(+id, request.user.id);
   }
 }

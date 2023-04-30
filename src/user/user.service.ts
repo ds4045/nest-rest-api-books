@@ -136,7 +136,7 @@ export class UserService {
       user[entityName].push(item);
     } else {
       const itemIndex = user[entityName].findIndex(
-        (item: ItemEntity) => item.id === item.id,
+        (i: ItemEntity) => i.id === item.id,
       );
       user[entityName].splice(itemIndex, 1);
     }

@@ -12,6 +12,8 @@ import { AuthMiddleware } from './user/middlewares/auth.middlewares';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { OrderModule } from './order/order.module';
+import { OrderEntity } from './order/entities/order.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -23,12 +25,13 @@ import { AppService } from './app.service';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       synchronize: true,
-      entities: [UserEntity, ItemEntity, ReviewEntity, PostEntity],
+      entities: [UserEntity, ItemEntity, ReviewEntity, PostEntity, OrderEntity],
     }),
     UserModule,
     ItemModule,
     ReviewModule,
     PostModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

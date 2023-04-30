@@ -10,6 +10,7 @@ import { hash } from 'bcrypt';
 import { ItemEntity } from 'src/item/entities/item.entity';
 import { ReviewEntity } from 'src/review/entities/review.entity';
 import { PostEntity } from 'src/post/entities/post.entity';
+import { OrderEntity } from 'src/order/entities/order.entity';
 @Entity({ name: 'users' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
@@ -40,9 +41,9 @@ export class UserEntity {
   @ManyToMany(() => ItemEntity)
   @JoinTable()
   basketItems: ItemEntity[];
-  @ManyToMany(() => ItemEntity)
+  @ManyToMany(() => OrderEntity)
   @JoinTable()
-  orderItems: ItemEntity[];
+  orderItems: OrderEntity[];
   @ManyToMany(() => ReviewEntity)
   @JoinTable()
   reviews: ReviewEntity[];

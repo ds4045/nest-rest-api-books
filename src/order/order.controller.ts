@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Param,
-  Delete,
   UseFilters,
   ValidationPipe,
   UsePipes,

@@ -21,7 +21,8 @@ export class ItemService {
   }
 
   async findAll(query: any): Promise<ItemDtoUpdate[]> {
-    const { sortBy, sortOrder, limit, offset, ...filters } = query;
+    const { sortBy, sortOrder, limit, offset, priceFrom, priceTo, ...filters } =
+      query;
     const qb = this.itemRepository
       .createQueryBuilder('item')
       .leftJoinAndSelect('item.reviews', 'itemReviews');
@@ -48,6 +49,12 @@ export class ItemService {
     }
     if (Number(offset) < 0) {
       throw new BadRequestException('Invalid value for offset');
+    }
+    if (priceFrom) {
+      qb.andWhere(`item.price >= :priceFrom`, { priceFrom });
+    }
+    if (priceTo) {
+      qb.andWhere(`item.price <= :priceTo`, { priceTo });
     }
     Object.keys(filters).forEach((key) => {
       qb.andWhere(`item.${key} = :${key}`, { [key]: filters[key] });

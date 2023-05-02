@@ -46,7 +46,7 @@ export class ItemService {
     if ((limit && isNaN(limit)) || Number(limit) < 1) {
       throw new BadRequestException('Invalid value for limit');
     }
-    if ((offset && isNaN(offset)) || Number(offset) < 1) {
+    if (Number(offset) < 0) {
       throw new BadRequestException('Invalid value for offset');
     }
     Object.keys(filters).forEach((key) => {

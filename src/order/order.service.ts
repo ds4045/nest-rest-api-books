@@ -23,7 +23,6 @@ export class OrderService {
     const orders = await this.orderRepository.find();
     const newOrder = { ...createOrderDto };
     orders.push(newOrder);
-    console.log(user);
     user.orderItems.push(newOrder);
     await this.orderRepository.save(orders);
     return await this.userRepository.save(user);

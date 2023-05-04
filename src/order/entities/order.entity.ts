@@ -18,9 +18,15 @@ export class OrderEntity {
   @Column()
   userAddress: string;
   @Column({ type: 'simple-array' })
-  itemId: number[];
+  items: Order[];
   @Column()
   date: string;
   @Column()
   totalPrice: number;
 }
+export type Order = {
+  imageUrl: string;
+  price: number;
+  count: number;
+  title: string;
+};

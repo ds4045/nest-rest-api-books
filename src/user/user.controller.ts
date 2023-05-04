@@ -13,14 +13,16 @@ import {
 } from '@nestjs/common';
 
 import { AuthGuards } from './guards/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { IExpressRequestUser, IUserRequest } from './user.type';
+import { UserDtoRequest } from './dto/user.response.dto';
 
 @Controller('user')
 @ApiTags('user')
+@ApiOkResponse({ description: 'response', type: UserDtoRequest })
 export class UserController {
   constructor(private readonly userService: UserService) {}
   @Post('register')
@@ -47,6 +49,10 @@ export class UserController {
   @Put('update')
   @UsePipes(new ValidationPipe())
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async updateCurrentUser(
     @Req() request: IExpressRequestUser,
     @Body() updateUserDto: UpdateUserDto,
@@ -59,6 +65,10 @@ export class UserController {
   }
   @Post('favorites/:itemId')
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async addFavorite(
     @Req() request: IExpressRequestUser,
     @Param('itemId') itemId: number,
@@ -72,6 +82,10 @@ export class UserController {
   }
   @Post('favorites-remove/:itemId')
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async removeFavorite(
     @Req() request: IExpressRequestUser,
     @Param('itemId') itemId: number,
@@ -86,6 +100,10 @@ export class UserController {
 
   @Post('basket/:itemId')
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async addBasket(
     @Req() request: IExpressRequestUser,
     @Param('itemId') itemId: number,
@@ -99,6 +117,10 @@ export class UserController {
   }
   @Post('basket-remove/:itemId')
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async removeBasket(
     @Req() request: IExpressRequestUser,
     @Param('itemId') itemId: number,
@@ -113,6 +135,10 @@ export class UserController {
 
   @Post('order/:itemId')
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async addOrder(
     @Req() request: IExpressRequestUser,
     @Param('itemId') itemId: number,
@@ -127,6 +153,10 @@ export class UserController {
 
   @Post('order-remove/:itemId')
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async removeOrder(
     @Req() request: IExpressRequestUser,
     @Param('itemId') itemId: number,

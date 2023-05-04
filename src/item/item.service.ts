@@ -9,6 +9,7 @@ import { ItemEntity } from './entities/item.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ItemDtoUpdate } from './dto/itemUpdate.dto';
+import { ItemResponseDto } from './dto/ItemResponse.dto';
 
 @Injectable()
 export class ItemService {
@@ -20,7 +21,7 @@ export class ItemService {
     return await this.itemRepository.save(createItemDto);
   }
 
-  async findAll(query: any): Promise<ItemDtoUpdate[]> {
+  async findAll(query: any): Promise<ItemResponseDto> {
     const { sortBy, sortOrder, limit, offset, priceFrom, priceTo, ...filters } =
       query;
     const qb = this.itemRepository
@@ -68,7 +69,20 @@ export class ItemService {
     if (offset) {
       qb.offset(offset);
     }
-    return await qb.getMany();
+    const response = await qb.getMany();
+    let totalItems = 0;
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+    response.forEach(({ price }) => {
+      totalItems++;
+      if (price < minPrice) {
+        minPrice = price;
+      }
+      if (price > maxPrice) {
+        maxPrice = price;
+      }
+    });
+    return { items: response, totalItems, minPrice, maxPrice };
   }
 
   async findOne(id: number): Promise<ItemDtoUpdate> {

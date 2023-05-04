@@ -15,7 +15,7 @@ import {
 import { ReviewService } from './review.service';
 
 import { AuthGuards } from 'src/user/guards/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { IExpressRequestUser } from 'src/user/user.type';
 import { ReviewDto } from './dto/review.dto';
 import { ReviewEntity } from './entities/review.entity';
@@ -29,6 +29,10 @@ export class ReviewController {
 
   @Post(':itemId')
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   @UsePipes(new ValidationPipe())
   async create(
     @Param('itemId') itemId: string,
@@ -56,6 +60,10 @@ export class ReviewController {
 
   @Put(':itemId/:reviewId')
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   @UsePipes(new ValidationPipe())
   async update(
     @Req() request: IExpressRequestUser,
@@ -74,6 +82,10 @@ export class ReviewController {
 
   @Delete(':itemId/:reviewId')
   @UseGuards(AuthGuards)
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async remove(
     @Req() request: IExpressRequestUser,
     @Param('itemId') itemId: string,

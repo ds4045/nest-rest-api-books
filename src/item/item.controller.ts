@@ -16,11 +16,12 @@ import {
 
 import { ItemService } from './item.service';
 import { ItemDto } from './dto/item.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AdminOnly } from 'src/decorators/admin-only.decorator';
 import { AuthGuards } from 'src/user/guards/auth.guard';
 import { BadRequestFilter } from 'src/common/request.filter';
 import { ItemDtoUpdate } from './dto/itemUpdate.dto';
+import { ItemResponseDto } from './dto/ItemResponse.dto';
 
 @Controller('item')
 @ApiTags('item')
@@ -31,6 +32,11 @@ export class ItemController {
   @Post('create')
   @UseGuards(AuthGuards)
   @UsePipes(new ValidationPipe())
+  @ApiOkResponse({ description: 'response', type: ItemDto })
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async create(
     @AdminOnly() isAdmin: boolean,
     @Body() createItemDto: ItemDto,
@@ -45,7 +51,11 @@ export class ItemController {
   }
 
   @Get('all')
-  async findAll(@Query() query: any): Promise<ItemDtoUpdate[]> {
+  @ApiOkResponse({
+    description: 'response',
+    type: ItemResponseDto,
+  })
+  async findAll(@Query() query: any): Promise<ItemResponseDto> {
     if (!query.limit) {
       query.limit = '100';
     }
@@ -53,13 +63,19 @@ export class ItemController {
   }
 
   @Get(':id')
+  @ApiOkResponse({ description: 'response', type: ItemDtoUpdate })
   async findOne(@Param('id') id: string): Promise<ItemDtoUpdate> {
     return await this.itemService.findOne(+id);
   }
 
   @Put(':id')
   @UseGuards(AuthGuards)
+  @ApiOkResponse({ description: 'response', type: ItemDtoUpdate })
   @UsePipes(new ValidationPipe())
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async update(
     @AdminOnly() isAdmin: boolean,
     @Param('id') id: string,
@@ -76,6 +92,11 @@ export class ItemController {
 
   @Delete(':id')
   @UseGuards(AuthGuards)
+  @ApiOkResponse({ description: 'response', type: [ItemDtoUpdate] })
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'JWT token',
+  })
   async remove(
     @AdminOnly() isAdmin: boolean,
     @Param('id') id: string,

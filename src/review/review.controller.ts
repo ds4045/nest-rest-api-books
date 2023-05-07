@@ -23,7 +23,7 @@ import { BadRequestFilter } from 'src/common/request.filter';
 
 @Controller('review')
 @ApiTags('review')
-// @UseFilters(BadRequestFilter)
+@UseFilters(BadRequestFilter)
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 

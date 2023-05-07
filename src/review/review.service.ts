@@ -89,6 +89,9 @@ export class ReviewService {
         }
         user.reviews = user.reviews.filter((r) => r.id !== reviewId);
         item.reviews = item.reviews.filter((r) => r.id !== reviewId);
+        item.averageRate =
+          item.reviews.reduce((acc, r) => acc + r.rate, 0) /
+          item.reviews.length;
         await this.reviewRepository.delete(reviewId);
         await this.itemRepository.save(item);
         await this.userRepository.save(user);

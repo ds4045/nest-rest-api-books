@@ -34,6 +34,8 @@ export class ItemEntity {
   @Column()
   discount: number;
   @Column()
+  averageRate: number;
+  @Column()
   authorBook: string;
   @Column()
   releaseDate: string;

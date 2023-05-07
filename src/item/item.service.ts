@@ -32,6 +32,7 @@ export class ItemService {
       'price',
       'genre',
       'category',
+      'averageRate',
       'authorBook',
       'releaseDate',
     ];

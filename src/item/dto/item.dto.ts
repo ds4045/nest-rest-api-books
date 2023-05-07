@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsInt, IsNotEmpty, IsNumber, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, Min, IsNumber } from 'class-validator';
 
 export class ItemDto {
   @ApiProperty()
@@ -50,6 +50,5 @@ export class ItemDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
-  @Min(0)
   averageRate: number;
 }

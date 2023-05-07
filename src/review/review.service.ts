@@ -66,6 +66,10 @@ export class ReviewService {
         newReview.itemId = item.id;
         user.reviews.push(newReview);
         item.reviews.push(newReview);
+        item.averageRate = Math.round(
+          item.reviews.reduce((acc, r) => acc + r.rate, 0) /
+            item.reviews.length || 0,
+        );
         await this.reviewRepository.save(newReview);
         await this.itemRepository.save(item);
         await this.userRepository.save(user);
@@ -78,6 +82,10 @@ export class ReviewService {
           );
         }
         existingReview.text = reviewDto.text || existingReview.text;
+        item.averageRate = Math.round(
+          item.reviews.reduce((acc, r) => acc + r.rate, 0) /
+            item.reviews.length || 0,
+        );
         await this.reviewRepository.save(existingReview);
         return existingReview;
       case 'delete':
@@ -89,9 +97,10 @@ export class ReviewService {
         }
         user.reviews = user.reviews.filter((r) => r.id !== reviewId);
         item.reviews = item.reviews.filter((r) => r.id !== reviewId);
-        item.averageRate =
+        item.averageRate = Math.round(
           item.reviews.reduce((acc, r) => acc + r.rate, 0) /
-          item.reviews.length;
+            item.reviews.length || 0,
+        );
         await this.reviewRepository.delete(reviewId);
         await this.itemRepository.save(item);
         await this.userRepository.save(user);

@@ -19,5 +19,7 @@ export class ReviewEntity {
   @Column()
   itemImageUrl: string;
   @Column()
+  userImageUrl: string;
+  @Column()
   itemTitle: string;
 }

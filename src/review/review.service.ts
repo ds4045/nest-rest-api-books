@@ -64,8 +64,8 @@ export class ReviewService {
         newReview.authorId = user.id;
         newReview.authorName = user.name;
         newReview.itemId = item.id;
-        newReview.itemImageUrl = item.itemImageUrl;
         newReview.userImageUrl = user.userImageUrl;
+        newReview.itemImageUrl = item.itemImageUrl;
         newReview.itemTitle = item.title;
         user.reviews.push(newReview);
         item.reviews.push(newReview);

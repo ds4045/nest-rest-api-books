@@ -84,6 +84,7 @@ export class ReviewService {
           );
         }
         existingReview.text = reviewDto.text || existingReview.text;
+        existingReview.rate = reviewDto.rate || existingReview.rate;
         item.averageRate = Math.round(
           item.reviews.reduce((acc, r) => acc + r.rate, 0) /
             item.reviews.length || 0,

@@ -16,4 +16,8 @@ export class ReviewEntity {
   date: string;
   @Column()
   rate: number;
+  @Column()
+  itemImageUrl: string;
+  @Column()
+  itemTitle: string;
 }

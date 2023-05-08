@@ -10,7 +10,6 @@ import {
   Req,
   ValidationPipe,
   UsePipes,
-  UseFilters,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 
@@ -19,11 +18,9 @@ import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { IExpressRequestUser } from 'src/user/user.type';
 import { ReviewDto } from './dto/review.dto';
 import { ReviewEntity } from './entities/review.entity';
-import { BadRequestFilter } from 'src/common/request.filter';
 
 @Controller('review')
 @ApiTags('review')
-@UseFilters(BadRequestFilter)
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 

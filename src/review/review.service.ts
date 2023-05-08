@@ -85,11 +85,19 @@ export class ReviewService {
         }
         existingReview.text = reviewDto.text || existingReview.text;
         existingReview.rate = reviewDto.rate || existingReview.rate;
+        user.reviews = user.reviews.map((r) =>
+          r.id === reviewId ? existingReview : r,
+        );
+        item.reviews = item.reviews.map((r) =>
+          r.id === reviewId ? existingReview : r,
+        );
         item.averageRate = Math.round(
           item.reviews.reduce((acc, r) => acc + r.rate, 0) /
             item.reviews.length || 0,
         );
         await this.reviewRepository.save(existingReview);
+        await this.itemRepository.save(item);
+        await this.userRepository.save(user);
         return existingReview;
       case 'delete':
         if (!existingReview) {

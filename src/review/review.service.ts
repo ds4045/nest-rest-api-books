@@ -85,6 +85,7 @@ export class ReviewService {
         }
         existingReview.text = reviewDto.text || existingReview.text;
         existingReview.rate = reviewDto.rate || existingReview.rate;
+        existingReview.date = reviewDto.date || existingReview.date;
         user.reviews = user.reviews.map((r) =>
           r.id === reviewId ? existingReview : r,
         );

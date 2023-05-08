@@ -90,7 +90,12 @@ export class ItemService {
     if (!(await this.itemRepository.findOneBy({ id }))) {
       throw new HttpException('Item does not exist', HttpStatus.NOT_FOUND);
     }
-    return await this.itemRepository.findOneBy({ id });
+
+    const qb = this.itemRepository
+      .createQueryBuilder('item')
+      .leftJoinAndSelect('item.reviews', 'itemReviews')
+      .where('item.id = :id', { id });
+    return await qb.getOne();
   }
 
   async update(

@@ -118,7 +118,7 @@ export class UserService {
       throw new HttpException('Data does not exist', HttpStatus.NOT_FOUND);
     }
     const isItemAlreadyPicked = user[entityName].find(
-      (item: ItemEntity) => item.id === item.id,
+      (el: ItemEntity) => el.id === item.id,
     );
     if (isItemAlreadyPicked && add) {
       throw new HttpException(

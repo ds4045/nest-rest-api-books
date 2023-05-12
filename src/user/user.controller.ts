@@ -91,7 +91,7 @@ export class UserController {
     @Param('itemId') itemId: number,
   ) {
     return this.userService.updateItemField(
-      'basketItems',
+      'favoriteItems',
       request.user.id,
       itemId,
       false,

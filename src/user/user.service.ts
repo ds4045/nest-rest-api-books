@@ -43,7 +43,10 @@ export class UserService {
       process.env.JWT_SECRET,
     );
   }
-  async buildUserResponse(user: UserEntity): Promise<IUserRequest> {
+  async buildUserResponse(
+    user: UserEntity,
+    token?: string,
+  ): Promise<IUserRequest> {
     const userId = user.id;
     const currentUser = await this.userRepository
       .createQueryBuilder('user')
@@ -56,7 +59,7 @@ export class UserService {
       .getOne();
     return {
       ...currentUser,
-      token: this.generateJwt(user),
+      token: token ? token : this.generateJwt(user),
     };
   }
   async login(loginUserDto: LoginUserDto): Promise<UserEntity> {

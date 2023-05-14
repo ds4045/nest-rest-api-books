@@ -44,7 +44,10 @@ export class UserController {
   async getCurrentUser(
     @Req() request: IExpressRequestUser,
   ): Promise<IUserRequest> {
-    return this.userService.buildUserResponse(request.user);
+    return this.userService.buildUserResponse(
+      request.user,
+      request.headers.authorization,
+    );
   }
   @Put('update')
   @UsePipes(new ValidationPipe())

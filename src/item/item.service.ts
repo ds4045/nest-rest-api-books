@@ -74,13 +74,14 @@ export class ItemService {
     let totalItems = 0;
     let minPrice = Infinity;
     let maxPrice = -Infinity;
-    response.forEach(({ price }) => {
+    response.forEach(({ price, discount }) => {
       totalItems++;
-      if (price < minPrice) {
-        minPrice = price;
+      const priceWithDiscount = price - Math.round((price / 100) * discount);
+      if (priceWithDiscount < minPrice) {
+        minPrice = priceWithDiscount;
       }
-      if (price > maxPrice) {
-        maxPrice = price;
+      if (priceWithDiscount > maxPrice) {
+        maxPrice = priceWithDiscount;
       }
     });
     return { items: response, totalItems, minPrice, maxPrice };

@@ -20,12 +20,13 @@ export class OrderService {
       .leftJoinAndSelect('user.orderItems', 'userOrders')
       .where('user.id = :userId', { userId })
       .getOne();
-    const orders = await this.orderRepository.find();
     const newOrder = { ...createOrderDto };
-    orders.push(newOrder);
-    user.orderItems.push(newOrder);
-    await this.orderRepository.save(orders);
-    return await this.userRepository.save(user);
+    const savedOrder = await this.orderRepository.save(newOrder);
+
+    user.orderItems.push(savedOrder);
+    await this.userRepository.save(user);
+
+    return user;
   }
 
   async findAll(userId: number): Promise<OrderEntity[]> {

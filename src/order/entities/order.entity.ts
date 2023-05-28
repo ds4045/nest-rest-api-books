@@ -17,8 +17,8 @@ export class OrderEntity {
   userPhone: string;
   @Column()
   userAddress: string;
-  @Column({ type: 'simple-array' })
-  items: Order[];
+  @Column()
+  items: string;
   @Column()
   date: string;
   @Column()

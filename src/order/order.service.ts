@@ -25,7 +25,7 @@ export class OrderService {
 
     user.orderItems.push(savedOrder);
     await this.userRepository.save(user);
-
+    console.log(user.orderItems);
     return user;
   }
 

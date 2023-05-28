@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsNumber, Min } from 'class-validator';
-import { Order } from '../entities/order.entity';
 
 export class OrderDto {
   @ApiProperty()
@@ -26,7 +25,7 @@ export class OrderDto {
   userAddress: string;
   @ApiProperty()
   @IsNotEmpty()
-  items: Order[];
+  items: string;
   @ApiProperty()
   @IsNotEmpty()
   date: string;

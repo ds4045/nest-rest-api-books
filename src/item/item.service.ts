@@ -75,7 +75,9 @@ export class ItemService {
     }
 
     if (title) {
-      qb.andWhere(`item.title LIKE :title`, { title: `%${title}%` });
+      qb.andWhere(`LOWER(item.title) LIKE LOWER(:title)`, {
+        title: `%${title}%`,
+      });
     }
 
     Object.keys(filters).forEach((key) => {

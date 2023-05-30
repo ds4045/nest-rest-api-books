@@ -22,11 +22,20 @@ export class ItemService {
   }
 
   async findAll(query: any): Promise<ItemResponseDto> {
-    const { sortBy, sortOrder, limit, offset, priceFrom, priceTo, ...filters } =
-      query;
+    const {
+      sortBy,
+      sortOrder,
+      limit,
+      offset,
+      priceFrom,
+      priceTo,
+      title,
+      ...filters
+    } = query;
     const qb = this.itemRepository
       .createQueryBuilder('item')
       .leftJoinAndSelect('item.reviews', 'itemReviews');
+
     const allowedSortByValues = [
       'title',
       'price',
@@ -36,9 +45,11 @@ export class ItemService {
       'authorBook',
       'releaseDate',
     ];
+
     if (sortBy && !allowedSortByValues.includes(sortBy)) {
       throw new BadRequestException('Invalid value for sortBy');
     }
+
     if (
       sortOrder &&
       sortOrder.toUpperCase() !== 'ASC' &&
@@ -46,34 +57,48 @@ export class ItemService {
     ) {
       throw new BadRequestException('Invalid value for sortOrder');
     }
+
     if ((limit && isNaN(limit)) || Number(limit) < 1) {
       throw new BadRequestException('Invalid value for limit');
     }
+
     if (Number(offset) < 0) {
       throw new BadRequestException('Invalid value for offset');
     }
+
     if (priceFrom) {
       qb.andWhere(`item.price >= :priceFrom`, { priceFrom });
     }
+
     if (priceTo) {
       qb.andWhere(`item.price <= :priceTo`, { priceTo });
     }
+
+    if (title) {
+      qb.andWhere(`item.title LIKE :title`, { title: `%${title}%` });
+    }
+
     Object.keys(filters).forEach((key) => {
       qb.andWhere(`item.${key} = :${key}`, { [key]: filters[key] });
     });
+
     if (sortBy && sortOrder) {
       qb.orderBy(`item.${sortBy}`, sortOrder.toUpperCase());
     }
+
     if (limit) {
       qb.limit(limit);
     }
+
     if (offset) {
       qb.offset(offset);
     }
+
     const response = await qb.getMany();
     let totalItems = 0;
     let minPrice = Infinity;
     let maxPrice = -Infinity;
+
     response.forEach(({ price, discount }) => {
       totalItems++;
       const priceWithDiscount = price - Math.round((price / 100) * discount);
@@ -84,6 +109,7 @@ export class ItemService {
         maxPrice = priceWithDiscount;
       }
     });
+
     return { items: response, totalItems, minPrice, maxPrice };
   }
 

@@ -103,7 +103,7 @@ export class ItemService {
 
     response.forEach(({ price, discount }) => {
       totalItems++;
-      const priceWithDiscount = price - Math.round((price / 100) * discount);
+      const priceWithDiscount = discount ? discount : price;
       if (priceWithDiscount < minPrice) {
         minPrice = priceWithDiscount;
       }

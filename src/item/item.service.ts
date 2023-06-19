@@ -97,20 +97,9 @@ export class ItemService {
     }
 
     const response = await qb.getMany();
-    let totalItems = 0;
-    let minPrice = Infinity;
-    let maxPrice = -Infinity;
-
-    response.forEach(({ price, discount }) => {
-      totalItems++;
-      const priceWithDiscount = discount ? discount : price;
-      if (priceWithDiscount < minPrice) {
-        minPrice = priceWithDiscount;
-      }
-      if (priceWithDiscount > maxPrice) {
-        maxPrice = priceWithDiscount;
-      }
-    });
+    const totalItems = response.length;
+    const minPrice = Math.min(...response.map((el) => el.price));
+    const maxPrice = Math.max(...response.map((el) => el.price));
 
     return { items: response, totalItems, minPrice, maxPrice };
   }
